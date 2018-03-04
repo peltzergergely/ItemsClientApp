@@ -1,14 +1,6 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Runtime.Serialization.Json;
-using System.Threading.Tasks;
-using RestSharp;
-using RestSharp.Authenticators;
-using System.IO;
-using ItemsClientApp;
 
 namespace ItemsClientApp
 {
