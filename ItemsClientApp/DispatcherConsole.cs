@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ItemsClientApp
 {
-    public class Menus
+    class Dispatcher
     {
         public void InputHandler()
         {
@@ -28,8 +28,8 @@ namespace ItemsClientApp
         static public int ChoseUserMenu()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("** CUSTOMER MENU **\n");
-            Console.WriteLine("1. New Order");
+            Console.WriteLine("** DISPATCHER MENU **\n");
+            Console.WriteLine("1. List New Orders");
             Console.WriteLine("2. .........");
             Console.WriteLine("3. .........");
             Console.WriteLine("4. .........");

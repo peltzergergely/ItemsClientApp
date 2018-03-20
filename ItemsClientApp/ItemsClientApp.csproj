@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustumerConsole.cs" />
+    <Compile Include="DispatcherConsole.cs" />
     <Compile Include="HandleItems.cs" />
     <Compile Include="Items.cs" />
     <Compile Include="Program.cs" />

@@ -18,9 +18,19 @@ namespace ItemsClientApp
             {
                 userInput = MenuDisplayer();
                 if (userInput == 1)
-                    MenuDisplayer();
+                {
+                    Console.Clear();
+                    Menus custcon = new Menus();
+                    custcon.InputHandler();
+                    Console.Clear();
+                }
                 if (userInput == 2)
-                    MenuDisplayer();
+                {
+                    Console.Clear();
+                    Dispatcher dispcon = new Dispatcher();
+                    dispcon.InputHandler();
+                    Console.Clear();
+                }
                 if (userInput == 3)
                     MenuDisplayer();
                 if (userInput == 4)
@@ -45,6 +55,7 @@ namespace ItemsClientApp
             Console.WriteLine("0. Exit");
             Console.Write("INPUT: ");
             var result = Console.ReadLine();
+            Console.Clear();
             try
             {
                 return Convert.ToInt32(result);

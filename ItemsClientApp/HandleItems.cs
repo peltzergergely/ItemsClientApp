@@ -23,11 +23,6 @@ namespace ItemsClientApp
                     PatchItem();
                 if (userInput == 4)
                     DeleteItem();
-                if (userInput == 6)
-                {
-                    Menus custcon = new Menus();
-                    custcon.InputHandler();
-                }
             } while (userInput != 0);
         }
 
