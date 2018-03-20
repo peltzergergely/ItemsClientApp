@@ -47,13 +47,16 @@ namespace ItemsClientApp
         static public int MenuDisplayer()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("** MAIN MENU **\n");
-            Console.WriteLine("1. COSTUMER");
-            Console.WriteLine("2. DISPATCHER");
-            Console.WriteLine("3. WH PERSON");
-            Console.WriteLine("4. Items");
-            Console.WriteLine("0. Exit");
-            Console.Write("INPUT: ");
+            Console.WriteLine("-------------------------------------");
+            Console.WriteLine("             * MAIN MENU *           ");
+            Console.WriteLine("-------------------------------------\n");
+            Console.WriteLine("   1. COSTUMER");
+            Console.WriteLine("   2. DISPATCHER");
+            Console.WriteLine("   3. WH PERSON");
+            Console.WriteLine("   4. ITEMS\n");
+            Console.WriteLine("   0. EXIT\n");
+            Console.WriteLine("-------------------------------------\n");
+            Console.Write("Chose Option: ");
             var result = Console.ReadLine();
             Console.Clear();
             try
