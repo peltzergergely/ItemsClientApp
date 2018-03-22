@@ -57,12 +57,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Costumer.cs" />
     <Compile Include="CustumerConsole.cs" />
     <Compile Include="DispatcherConsole.cs" />
-    <Compile Include="HandleItems.cs" />
-    <Compile Include="Items.cs" />
+    <Compile Include="ItemsConsole.cs" />
+    <Compile Include="Objects\Dispatcher.cs" />
+    <Compile Include="Objects\Items.cs" />
+    <Compile Include="Objects\Order.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Objects\Transaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

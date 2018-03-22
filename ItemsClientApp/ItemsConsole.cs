@@ -1,4 +1,4 @@
-﻿using RestSharp; 
+﻿using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +20,11 @@ namespace ItemsClientApp
                 if (userInput == 2)
                     AddItem();
                 if (userInput == 3)
-                    PatchItem();
+                    PutItem();
                 if (userInput == 4)
                     DeleteItem();
+                if (userInput == 5)
+                    PatchItem();
             } while (userInput != 0);
         }
 
@@ -34,6 +36,7 @@ namespace ItemsClientApp
             Console.WriteLine("2. ADD ITEM");
             Console.WriteLine("3. UPDATE ITEM");
             Console.WriteLine("4. DELETE ITEM BY ID");
+            Console.WriteLine("5. PATCH ITEM");
             Console.WriteLine("0. Exit");
             Console.Write("INPUT: ");
             var result = Console.ReadLine();
@@ -68,8 +71,9 @@ namespace ItemsClientApp
                 {
                     Console.WriteLine("       ID:  " + item.Id);
                     Console.WriteLine("ITEM NAME:  " + item.Name);
-                    Console.WriteLine("    OWNER:  " + item.Owner);
-                    Console.WriteLine(" POSITION:  " + item.Pos);
+                    Console.WriteLine("  OWNERID:  " + item.OwnerId);
+                    Console.WriteLine(" LOCATION:  " + item.Location);
+                    Console.WriteLine("   STATUS:  " + item.Status);
                     Console.WriteLine("===========================");
                 }
             }
@@ -88,13 +92,15 @@ namespace ItemsClientApp
             Console.Write("ITEM NAME: ");
             itemToAdd.Name = Console.ReadLine();
             Console.Write("    OWNER: ");
-            itemToAdd.Owner = Console.ReadLine();
-            Console.Write(" POSITION: ");
-            itemToAdd.Pos = int.Parse(Console.ReadLine());
+            itemToAdd.OwnerId = int.Parse(Console.ReadLine());
+            Console.Write(" LOCATION: ");
+            itemToAdd.Location = int.Parse(Console.ReadLine());
+            Console.Write("   STATUS: ");
+            itemToAdd.Status = Console.ReadLine();
 
             var request = new RestRequest("api/items/", Method.POST);
             request.AddJsonBody(itemToAdd);
-            Console.WriteLine(client.Execute(request).ToString()); 
+            client.Execute(request);
         }
 
         //DELETE
@@ -108,6 +114,32 @@ namespace ItemsClientApp
             client.Execute(request);
         }
 
+        //PUT
+        private static void PutItem()
+        {
+            var client = new RestClient("http://localhost:5000");
+            var itemToAdd = new Item();
+
+            Console.Write("  ITEM ID: ");
+            itemToAdd.Id = int.Parse(Console.ReadLine());
+            Console.Write("ITEM NAME: ");
+            itemToAdd.Name = Console.ReadLine();
+            Console.Write("    OWNER: ");
+            itemToAdd.OwnerId = int.Parse(Console.ReadLine());
+            Console.Write(" POSITION: ");
+            itemToAdd.Location = int.Parse(Console.ReadLine());
+            Console.Write("   STATUS: ");
+            itemToAdd.Status = Console.ReadLine();
+
+            var request = new RestRequest(Method.PUT)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/items/" + itemToAdd.Id
+            };
+            request.AddJsonBody(itemToAdd);
+            client.Execute(request);
+        }
+
         //PATCH
         private static void PatchItem()
         {
@@ -118,12 +150,14 @@ namespace ItemsClientApp
             itemToAdd.Id = int.Parse(Console.ReadLine());
             Console.Write("ITEM NAME: ");
             itemToAdd.Name = Console.ReadLine();
-            Console.Write("    OWNER: ");
-            itemToAdd.Owner = Console.ReadLine();
-            Console.Write(" POSITION: ");
-            itemToAdd.Pos = int.Parse(Console.ReadLine());
+            //Console.Write("    OWNER: ");
+            //itemToAdd.OwnerId = int.Parse(Console.ReadLine());
+            //Console.Write(" POSITION: ");
+            //itemToAdd.Location = int.Parse(Console.ReadLine());
+            //Console.Write("   STATUS: ");
+            //itemToAdd.Status = Console.ReadLine();
 
-            var request = new RestRequest(Method.PUT)
+            var request = new RestRequest(Method.PATCH)
             {
                 OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
                 Resource = "api/items/" + itemToAdd.Id

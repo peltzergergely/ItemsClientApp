@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace ItemsClientApp
             {
                 userInput = ChoseUserMenu();
                 if (userInput == 1)
-                    ChoseUserMenu();
+                    AddOrder();
                 if (userInput == 2)
                     ChoseUserMenu();
                 if (userInput == 3)
@@ -46,6 +47,19 @@ namespace ItemsClientApp
                 Console.WriteLine("\n ** INPUT CAN ONLY BE NUMERIC PLEASE TRY AGAIN **");
                 return 9;
             }
+        }
+
+        private static void AddOrder()
+        {
+            var client = new RestClient("http://localhost:5000");
+            var order = new Order();
+
+            order.AddOrder();
+
+            var request = new RestRequest("api/orders/", Method.POST);
+            request.AddJsonBody(order);
+            client.Execute(request);
+            Console.ReadLine();
         }
     }
 }

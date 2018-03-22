@@ -52,7 +52,7 @@ namespace ItemsClientApp
             Console.WriteLine("-------------------------------------\n");
             Console.WriteLine("   1. COSTUMER");
             Console.WriteLine("   2. DISPATCHER");
-            Console.WriteLine("   3. WH PERSON");
+            Console.WriteLine("   3. STOREKEEPER");
             Console.WriteLine("   4. ITEMS\n");
             Console.WriteLine("   0. EXIT\n");
             Console.WriteLine("-------------------------------------\n");

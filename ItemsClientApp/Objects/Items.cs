@@ -10,10 +10,13 @@ namespace ItemsClientApp
         [DataMember(Name = "Name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "Owner")]
-        public string Owner { get; set; }
+        [DataMember(Name = "OwnerId")]
+        public int OwnerId { get; set; }
 
-        [DataMember(Name = "Pos")]
-        public int Pos { get; set; }
+        [DataMember(Name = "Location")]
+        public int Location { get; set; }
+
+        [DataMember(Name = "Status")]
+        public string Status { get; set; }
     }
 }
