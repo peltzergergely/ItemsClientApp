@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Runtime.Serialization;
 
 
@@ -31,6 +32,9 @@ namespace WarehouseClient
 
         public void AddOrder()
         {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var order = new Order();
+
             Console.WriteLine("\n\n** CHOOSE DIRECTION **\n");
 
             Console.WriteLine("1. Deposit");
@@ -61,11 +65,16 @@ namespace WarehouseClient
             DateTime myDateTime = DateTime.Now;
             this.TimeStamp = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
             Console.Write("  TIMESTAMP: " + this.TimeStamp);
+
+            var request = new RestRequest("api/orders/", Method.POST);
+            request.AddJsonBody(order);
+            client.Execute(request);
+            Console.ReadLine();
         }
 
         public Order GetOrderById(int id)
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
             {
                 OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
@@ -100,7 +109,7 @@ namespace WarehouseClient
 
         public void GetPendingOrders()
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
             {
                 OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
@@ -136,7 +145,7 @@ namespace WarehouseClient
 
         public void UpdateOrderStatus(int id, string status)
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var order = new Order();
 
             order = order.GetOrderById(id);

@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ namespace WarehouseClient
         {
             Console.Write("ADD ID OR LEAVE EMPTY: ");
             var id = Console.ReadLine();
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
             {
                 OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
@@ -86,7 +87,7 @@ namespace WarehouseClient
         //POST
         private static void AddItem()
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var itemToAdd = new Item();
 
             Console.Write("ITEM NAME: ");
@@ -108,7 +109,7 @@ namespace WarehouseClient
         {
             Console.Write("ID: ");
             var id = Console.ReadLine();
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest("api/items/{id}", Method.DELETE);
             request.AddParameter("id", id, ParameterType.UrlSegment);
             client.Execute(request);
@@ -117,7 +118,7 @@ namespace WarehouseClient
         //PUT
         private static void PutItem()
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var itemToAdd = new Item();
 
             Console.Write("  ITEM ID: ");
@@ -143,7 +144,7 @@ namespace WarehouseClient
         //PATCH
         private static void PatchItem()
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var itemToAdd = new Item();
 
             Console.Write("  ITEM ID: ");

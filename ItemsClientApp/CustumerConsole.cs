@@ -51,15 +51,8 @@ namespace WarehouseClient
 
         private static void AddOrder()
         {
-            var client = new RestClient("http://localhost:5000");
             var order = new Order();
-
             order.AddOrder();
-
-            var request = new RestRequest("api/orders/", Method.POST);
-            request.AddJsonBody(order);
-            client.Execute(request);
-            Console.ReadLine();
         }
     }
 }

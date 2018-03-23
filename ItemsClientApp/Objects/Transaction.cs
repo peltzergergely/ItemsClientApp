@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using RestSharp;
+using System.Configuration;
 
 namespace WarehouseClient
 {
@@ -36,7 +37,7 @@ namespace WarehouseClient
 
         public void GetTransactions()
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
             {
                 OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
@@ -70,7 +71,7 @@ namespace WarehouseClient
 
         public void AddTransaction()
         {
-            var client = new RestClient("http://localhost:5000");
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var transaction = new Transaction();
             var order = new Order();
 
