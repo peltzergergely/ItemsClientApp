@@ -1,36 +1,36 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WarehouseClient;
 
-namespace WarehouseClient
+namespace ItemsClientApp
 {
-    public class CostumerConsole
+    class StorekeeperConsole
     {
         public void InputHandler()
         {
             int userInput = 0;
             do
             {
-                userInput = ChoseUserMenu();
+                userInput = StorekeeperMenu();
                 if (userInput == 1)
-                    AddOrder();
+                    GetTransactions();
                 if (userInput == 2)
-                    ChoseUserMenu();
+                    StorekeeperMenu();
                 if (userInput == 3)
-                    ChoseUserMenu();
+                    StorekeeperMenu();
                 if (userInput == 4)
-                    ChoseUserMenu();
+                    StorekeeperMenu();
             } while (userInput != 0);
         }
 
-        static public int ChoseUserMenu()
+        static public int StorekeeperMenu()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("** CUSTOMER MENU **\n");
-            Console.WriteLine("1. New Order");
+            Console.WriteLine("** STOREKEEPER MENU **\n");
+            Console.WriteLine("1. List Transactions");
             Console.WriteLine("2. .........");
             Console.WriteLine("3. .........");
             Console.WriteLine("4. .........");
@@ -49,17 +49,11 @@ namespace WarehouseClient
             }
         }
 
-        private static void AddOrder()
+        private static void GetTransactions()
         {
-            var client = new RestClient("http://localhost:5000");
-            var order = new Order();
-
-            order.AddOrder();
-
-            var request = new RestRequest("api/orders/", Method.POST);
-            request.AddJsonBody(order);
-            client.Execute(request);
-            Console.ReadLine();
+            var transaction = new Transaction();
+            transaction.GetTransactions();
         }
+
     }
 }

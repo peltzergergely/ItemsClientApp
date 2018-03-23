@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-namespace ItemsClientApp.Objects
+namespace WarehouseClient.Objects
 {
     class Dispatcher
     {

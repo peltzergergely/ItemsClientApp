@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ItemsClientApp
+namespace WarehouseClient
 {
-    class Dispatcher
+    class DispatcherConsole
     {
         public void InputHandler()
         {
@@ -51,60 +51,14 @@ namespace ItemsClientApp
 
         private static void GetOrders()
         {
-            //Console.Write("ADD ID OR LEAVE EMPTY: ");
-            //var id = Console.ReadLine();
-            var client = new RestClient("http://localhost:5000");
-            var request = new RestRequest(Method.GET)
-            {
-                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
-                Resource = "api/orders/"
-            };
-
-            //Get by Id
-            //if (id != "")
-            //{
-            //    request.Resource += id;
-            //}
-
-            try
-            {
-                var restResult = client.Execute<List<Order>>(request).Data;
-
-                Console.WriteLine();
-                Console.WriteLine("===========================");
-                foreach (var item in restResult)
-                {
-                    if (item.Status == "pending")
-                    {
-                        Console.WriteLine("        ID:  " + item.Id);
-                        Console.WriteLine("CostumerId:  " + item.CostumerId);
-                        Console.WriteLine("  ItemName:  " + item.ItemName);
-                        Console.WriteLine("  Quantity:  " + item.Quantity);
-                        Console.WriteLine("    Status:  " + item.Status);
-                        Console.WriteLine(" Direction:  " + item.Direction);
-                        Console.WriteLine(" TimeStamp:  " + item.TimeStamp);
-                        Console.WriteLine("===========================");
-                    }
-                }
-            }
-            catch (Exception msg)
-            {
-                Console.WriteLine(msg.Message);
-            }
+            var order = new Order();
+            order.GetPendingOrders();
         }
 
-        //get order id, change order status to "processed", load in order fields.
         private static void CreateTransaction()
         {
-            var client = new RestClient("http://localhost:5000");
             var transaction = new Transaction();
-
-            transaction = transaction.AddTransaction();
-
-            var request = new RestRequest("api/Transactions/", Method.POST);
-            request.AddJsonBody(transaction);
-            client.Execute(request);
-            Console.ReadLine();
+            transaction.AddTransaction();
         }
     }
 }

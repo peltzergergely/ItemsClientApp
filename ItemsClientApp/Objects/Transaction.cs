@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using RestSharp;
 
-namespace ItemsClientApp
+namespace WarehouseClient
 {
     class Transaction
     {
@@ -33,15 +34,50 @@ namespace ItemsClientApp
         [DataMember(Name = "DispatcherId")]
         public int DispatcherId { get; set; }
 
-        //gotta pass selected order with informations to this one
-        public Transaction AddTransaction()
+        public void GetTransactions()
         {
+            var client = new RestClient("http://localhost:5000");
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/transactions/"
+            };
+
+            try
+            {
+                var transactionList = client.Execute<List<Transaction>>(request).Data;
+
+                Console.WriteLine();
+                Console.WriteLine("===========================");
+                foreach (var transaction in transactionList)
+                {
+                    Console.WriteLine("TRANS. ID:  " + transaction.Id);
+                    Console.WriteLine(" ORDER ID:  " + transaction.OrderId);
+                    Console.WriteLine("     GATE:  " + transaction.Gate);
+                    Console.WriteLine("     TIME:  " + transaction.Time);
+                    Console.WriteLine(" LOCATION:  " + transaction.Location);
+                    Console.WriteLine("DIRECTION:  " + transaction.Direction);
+                    Console.WriteLine("TIMESTAMP:  " + transaction.TimeStamp);
+                    Console.WriteLine(" DISP. ID:  " + transaction.DispatcherId);
+                    Console.WriteLine("===========================");
+                }
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
+        }
+
+        public void AddTransaction()
+        {
+            var client = new RestClient("http://localhost:5000");
             var transaction = new Transaction();
             var order = new Order();
 
             Console.WriteLine("\n\n** CREATE TRANSACTION **\n");
             Console.Write("          Order ID: ");
             int orderId = int.Parse(Console.ReadLine());
+            //get order details
             order = order.GetOrderById(orderId);
 
             transaction.OrderId = order.Id;
@@ -59,18 +95,13 @@ namespace ItemsClientApp
             transaction.DispatcherId = 1;
             Console.Write("     DISPATCHER ID: " + transaction.DispatcherId.ToString() + "\n");
 
-            //transaction.OrderId = 3;
-            //transaction.Gate = 2;
-            //transaction.Time = "03-26 14:00";
-            //transaction.Location = 2;
-            //transaction.Direction = "Deposit";
-            //transaction.TimeStamp = "2018-03-22T23:28:47";
-            //transaction.DispatcherId = 1;
+            var request = new RestRequest("api/Transactions/", Method.POST);
+            request.AddJsonBody(transaction);
+            client.Execute(request);
 
-
-            //order.UpdateOrderStatus(order.Id, "processed");
-
-            return transaction;
+            //change the status of the order
+            order.UpdateOrderStatus(order.Id, "processed");
+            Console.ReadLine();
         }
     }
 }

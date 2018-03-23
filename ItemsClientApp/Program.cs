@@ -1,8 +1,9 @@
-﻿using RestSharp;
+﻿using ItemsClientApp;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 
-namespace ItemsClientApp
+namespace WarehouseClient
 {
     class Program
     {
@@ -20,23 +21,28 @@ namespace ItemsClientApp
                 if (userInput == 1)
                 {
                     Console.Clear();
-                    Menus custcon = new Menus();
+                    CostumerConsole custcon = new CostumerConsole();
                     custcon.InputHandler();
                     Console.Clear();
                 }
                 if (userInput == 2)
                 {
                     Console.Clear();
-                    Dispatcher dispcon = new Dispatcher();
+                    DispatcherConsole dispcon = new DispatcherConsole();
                     dispcon.InputHandler();
                     Console.Clear();
                 }
                 if (userInput == 3)
-                    MenuDisplayer();
+                {
+                    Console.Clear();
+                    var storekeeperconsole = new StorekeeperConsole();
+                    storekeeperconsole.InputHandler();
+                    Console.Clear();
+                }
                 if (userInput == 4)
                 {
                     Console.Clear();
-                    var itemhandler = new ItemHandler();
+                    var itemhandler = new ItemsHanderPOC();
                     itemhandler.MenuPicker();
                     Console.Clear();
                 }

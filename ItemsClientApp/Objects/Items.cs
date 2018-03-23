@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ItemsClientApp
+namespace WarehouseClient
 {
     public class Item
     {

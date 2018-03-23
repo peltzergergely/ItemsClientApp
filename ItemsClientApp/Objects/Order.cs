@@ -1,9 +1,10 @@
 ﻿using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 
-namespace ItemsClientApp
+namespace WarehouseClient
 {
     class Order
     {
@@ -97,8 +98,42 @@ namespace ItemsClientApp
             return order;
         }
 
-        //sadly patch isn't working have to load in and then change
-        //load in order by id, then change order.status and put
+        public void GetPendingOrders()
+        {
+            var client = new RestClient("http://localhost:5000");
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/orders/"
+            };
+
+            try
+            {
+                var restResult = client.Execute<List<Order>>(request).Data;
+
+                Console.WriteLine();
+                Console.WriteLine("===========================");
+                foreach (var item in restResult)
+                {
+                    if (item.Status == "pending")
+                    {
+                        Console.WriteLine("        ID:  " + item.Id);
+                        Console.WriteLine("CostumerId:  " + item.CostumerId);
+                        Console.WriteLine("  ItemName:  " + item.ItemName);
+                        Console.WriteLine("  Quantity:  " + item.Quantity);
+                        Console.WriteLine("    Status:  " + item.Status);
+                        Console.WriteLine(" Direction:  " + item.Direction);
+                        Console.WriteLine(" TimeStamp:  " + item.TimeStamp);
+                        Console.WriteLine("===========================");
+                    }
+                }
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
+        }
+
         public void UpdateOrderStatus(int id, string status)
         {
             var client = new RestClient("http://localhost:5000");
@@ -116,5 +151,4 @@ namespace ItemsClientApp
             client.Execute(request);
         }
     }
-
 }

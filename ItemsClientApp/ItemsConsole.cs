@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ItemsClientApp
+namespace WarehouseClient
 {
-    class ItemHandler
+    class ItemsHanderPOC
     {
         public void MenuPicker()
         {
@@ -91,7 +91,7 @@ namespace ItemsClientApp
 
             Console.Write("ITEM NAME: ");
             itemToAdd.Name = Console.ReadLine();
-            Console.Write("    OWNER: ");
+            Console.Write(" OWNER ID: ");
             itemToAdd.OwnerId = int.Parse(Console.ReadLine());
             Console.Write(" LOCATION: ");
             itemToAdd.Location = int.Parse(Console.ReadLine());
