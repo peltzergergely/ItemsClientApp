@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\Costumer.cs" />
-    <Compile Include="CustumerConsole.cs" />
+    <Compile Include="CustomerConsole.cs" />
     <Compile Include="DispatcherConsole.cs" />
     <Compile Include="ItemsConsole.cs" />
     <Compile Include="Objects\Dispatcher.cs" />

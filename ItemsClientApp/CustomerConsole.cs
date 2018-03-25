@@ -11,12 +11,15 @@ namespace WarehouseClient
     {
         public void InputHandler()
         {
+            var customer = new Customer();
+            customer = LoginCustomer();
+
             int userInput = 0;
             do
             {
                 userInput = ChoseUserMenu();
                 if (userInput == 1)
-                    AddOrder();
+                    PlaceOrder(customer);
                 if (userInput == 2)
                     ChoseUserMenu();
                 if (userInput == 3)
@@ -31,7 +34,7 @@ namespace WarehouseClient
             Console.WriteLine("\n");
             Console.WriteLine("** CUSTOMER MENU **\n");
             Console.WriteLine("1. New Order");
-            Console.WriteLine("2. .........");
+            Console.WriteLine("2. Submitted Orders");
             Console.WriteLine("3. .........");
             Console.WriteLine("4. .........");
             Console.WriteLine("0. Exit");
@@ -49,10 +52,16 @@ namespace WarehouseClient
             }
         }
 
-        private static void AddOrder()
+        private static Customer LoginCustomer()
+        {
+            var customer = new Customer();
+            return customer.Login();
+        }
+
+        private static void PlaceOrder(Customer customer)
         {
             var order = new Order();
-            order.AddOrder();
+            order.AddOrder(customer);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace WarehouseClient
         private static void GetOrders()
         {
             var order = new Order();
-            order.GetPendingOrders();
+            order.ListPendingOrders();
         }
 
         private static void CreateTransaction()

@@ -52,7 +52,7 @@ namespace ItemsClientApp
         private static void GetTransactions()
         {
             var transaction = new Transaction();
-            transaction.GetTransactions();
+            transaction.ListTransactions();
         }
 
     }

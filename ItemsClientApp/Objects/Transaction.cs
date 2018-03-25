@@ -35,7 +35,7 @@ namespace WarehouseClient
         [DataMember(Name = "DispatcherId")]
         public int DispatcherId { get; set; }
 
-        public void GetTransactions()
+        public void ListTransactions()
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)

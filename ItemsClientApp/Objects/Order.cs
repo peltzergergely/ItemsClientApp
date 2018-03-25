@@ -30,7 +30,7 @@ namespace WarehouseClient
         [DataMember(Name = "TimeStamp")]
         public string TimeStamp { get; set; }
 
-        public void AddOrder()
+        public void AddOrder(Customer customer)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var order = new Order();
@@ -42,29 +42,29 @@ namespace WarehouseClient
             var direction = Console.ReadLine();
             if (direction == "2")
             {
-                this.Direction = "Withdrawal";
+                order.Direction = "Withdrawal";
                 Console.Clear();
                 Console.WriteLine("\n\n** WITHDRAWAL **\n");
             }
             else
             {
-                this.Direction = "Deposit";
+                order.Direction = "Deposit";
                 Console.Clear();
                 Console.WriteLine("\n\n** DEPOSIT **\n");
             }
 
-            Console.Write("COSTUMER ID: 2\n");
-            this.CostumerId = 2;
+            Console.Write("COSTUMER ID: " + customer.Id + "\n");
+            order.CostumerId = customer.Id;
             Console.Write("  ITEM NAME: ");
-            this.ItemName = Console.ReadLine();
+            order.ItemName = Console.ReadLine();
             Console.Write("   QUANTITY: ");
-            this.Quantity = int.Parse(Console.ReadLine());
+            order.Quantity = int.Parse(Console.ReadLine());
             Console.Write("     STATUS: Pending\n");
-            this.Status = "pending";
-            Console.Write("  DIRECTION: " + this.Direction + "\n");
+            order.Status = "pending";
+            Console.Write("  DIRECTION: " + order.Direction + "\n");
             DateTime myDateTime = DateTime.Now;
-            this.TimeStamp = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-            Console.Write("  TIMESTAMP: " + this.TimeStamp);
+            order.TimeStamp = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            Console.Write("  TIMESTAMP: " + order.TimeStamp);
 
             var request = new RestRequest("api/orders/", Method.POST);
             request.AddJsonBody(order);
@@ -107,7 +107,7 @@ namespace WarehouseClient
             return order;
         }
 
-        public void GetPendingOrders()
+        public void ListPendingOrders()
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
