@@ -38,10 +38,10 @@ namespace WarehouseClient
             };
 
             var customer = new Customer();
-            Console.WriteLine("Név: Bill");
-            customer.Name = "Bill";
-            Console.WriteLine("Jelszó: 123456");
-            customer.Pw = "123456";
+            Console.Write("Név: ");
+            customer.Name = Console.ReadLine();
+            Console.Write("Jelszó: ");
+            customer.Pw = Console.ReadLine();
             Console.Clear();
 
             request.Resource += customer.Name + "/" + customer.Pw;
@@ -58,9 +58,5 @@ namespace WarehouseClient
             return customer;
         }
 
-
-        //check free space on enter
-        //show relevant transaction
-        //list stored items
     }
 }

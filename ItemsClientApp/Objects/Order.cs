@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Runtime.Serialization;
 
 
@@ -86,19 +87,6 @@ namespace WarehouseClient
             try
             {
                 order = client.Execute<Order>(request).Data;
-
-                //Console.WriteLine();
-                //Console.WriteLine("===========================");
-                //{
-                //    Console.WriteLine("         ID:  " + order.Id);
-                //    Console.WriteLine("COSTUMER ID:  " + order.CostumerId);
-                //    Console.WriteLine("   ITEMNAME:  " + order.ItemName);
-                //    Console.WriteLine("   QUANTITY:  " + order.Quantity);
-                //    Console.WriteLine("     STATUS:  " + order.Status);
-                //    Console.WriteLine("  DIRECTION:  " + order.Direction);
-                //    Console.WriteLine("  TIMESTAMP:  " + order.TimeStamp);
-                //    Console.WriteLine("===========================");
-                //}
             }
             catch (Exception msg)
             {
@@ -122,9 +110,47 @@ namespace WarehouseClient
 
                 Console.WriteLine();
                 Console.WriteLine("===========================");
-                foreach (var item in restResult)
+                foreach (var item in restResult.Where(i => i.Status == "pending"))
                 {
-                    if (item.Status == "pending")
+                    Console.WriteLine("        ID:  " + item.Id);
+                    Console.WriteLine("CostumerId:  " + item.CostumerId);
+                    Console.WriteLine("  ItemName:  " + item.ItemName);
+                    Console.WriteLine("  Quantity:  " + item.Quantity);
+                    Console.WriteLine("    Status:  " + item.Status);
+                    Console.WriteLine(" Direction:  " + item.Direction);
+                    Console.WriteLine(" TimeStamp:  " + item.TimeStamp);
+                    Console.WriteLine("===========================");
+                }
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
+        }
+
+        public List<Order> ListCustomerOrders(int customerId, bool onlyData)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/orders/"
+            };
+
+            var ListOfCustomerOrders = new List<Order>();
+
+            try
+            {
+                var restResult = client.Execute<List<Order>>(request).Data;
+
+                if (!onlyData)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("===========================");
+                }
+                foreach (var item in restResult.Where(n => n.CostumerId == customerId))
+                {
+                    if (!onlyData)
                     {
                         Console.WriteLine("        ID:  " + item.Id);
                         Console.WriteLine("CostumerId:  " + item.CostumerId);
@@ -135,12 +161,16 @@ namespace WarehouseClient
                         Console.WriteLine(" TimeStamp:  " + item.TimeStamp);
                         Console.WriteLine("===========================");
                     }
+                    ListOfCustomerOrders.Add(item);
                 }
             }
             catch (Exception msg)
             {
                 Console.WriteLine(msg.Message);
             }
+            Console.ReadLine();
+
+            return ListOfCustomerOrders;
         }
 
         public void UpdateOrderStatus(int id, string status)
