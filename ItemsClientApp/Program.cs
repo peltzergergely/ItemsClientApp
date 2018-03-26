@@ -2,6 +2,7 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace WarehouseClient
 {
@@ -52,6 +53,7 @@ namespace WarehouseClient
 
         static public int MenuDisplayer()
         {
+            TestConnection();
             Console.WriteLine("\n");
             Console.WriteLine("-------------------------------------");
             Console.WriteLine("             * MAIN MENU *           ");
@@ -74,6 +76,25 @@ namespace WarehouseClient
                 Console.WriteLine("\n ** INPUT CAN ONLY BE NUMERIC PLEASE TRY AGAIN **");
                 return 9;
             }
+
+
+        }
+
+        private static void TestConnection()
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/ConnectionCheck/"
+            };
+            string response = client.Execute(request).Content;
+            if (!String.IsNullOrWhiteSpace(response))
+            {
+                Console.WriteLine(response);
+            }
+            else
+                Console.WriteLine("***WARNING: SERVER IS NOT CONNECTED***");
         }
 
     }
