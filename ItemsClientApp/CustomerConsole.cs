@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WarehouseClient
 {
-    public class CostumerConsole
+    public class CustomerConsole
     {
         public void InputHandler()
         {
@@ -23,9 +23,7 @@ namespace WarehouseClient
                 if (userInput == 2)
                     ListOrders(customer.Id);
                 if (userInput == 3)
-                {
-                    ChoseUserMenu();
-                }
+                    ListOfTransactionsByOrderForCustomer(customer);
                 if (userInput == 4)
                     ChoseUserMenu();
             } while (userInput != 0);
@@ -72,25 +70,16 @@ namespace WarehouseClient
             order.ListCustomerOrders(customerId, false);
         }
 
-        private static void ListOfTransactionsByOrderForCustomer(List<Order> orderList)
+        private static void ListOfTransactionsByOrderForCustomer(Customer customer)
         {
             //listorders alapján kellenek a tranzakciók
             //végignézem tranzakciókat, és ahol order.ID = transaction.OrderID-val az jöhet ide
             //kicsit deep, elfáradtam, nem müxik majd folytatom
-            var transaction = new Transaction();
-            var transList = new List<Transaction>(transaction.ListTransactions(true));
-            foreach (var trans in transList.Where(a => orderList.Any(b => a.OrderId == b.Id)))
-            {
-                Console.WriteLine("TRANS. ID:  " + trans.Id);
-                Console.WriteLine(" ORDER ID:  " + trans.OrderId);
-                Console.WriteLine("     GATE:  " + trans.Gate);
-                Console.WriteLine("     TIME:  " + trans.Time);
-                Console.WriteLine(" LOCATION:  " + trans.Location);
-                Console.WriteLine("DIRECTION:  " + trans.Direction);
-                Console.WriteLine("TIMESTAMP:  " + trans.TimeStamp);
-                Console.WriteLine(" DISP. ID:  " + trans.DispatcherId);
-                Console.WriteLine("===========================");
-            }
+
+            //translist = LIST OF ALL TRANSACTION
+            //orderlist = list of order for THIS person
+            //i need the list of transactions where transaction.orderid = order.id
+            customer.ListTransactions();
         }
 
         //show relevant transaction

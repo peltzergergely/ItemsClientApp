@@ -58,5 +58,28 @@ namespace WarehouseClient
             return customer;
         }
 
+        public void ListTransactions()
+        {
+            var transaction = new Transaction();
+            var transList = new List<Transaction>(transaction.ListTransactions(true));
+            var order = new Order();
+            var orderList = new List<Order>(order.ListCustomerOrders(this.Id, true));
+
+            Console.WriteLine("Displaying Transactions for " + this.Name + " based on sent orders");
+            Console.WriteLine("===========================");
+
+            foreach (var trans in transList.Where(a => orderList.Any(b => a.OrderId == b.Id)))
+            {
+                Console.WriteLine("TRANS. ID:  " + trans.Id);
+                Console.WriteLine(" ORDER ID:  " + trans.OrderId);
+                Console.WriteLine("     GATE:  " + trans.Gate);
+                Console.WriteLine("     TIME:  " + trans.Time);
+                Console.WriteLine(" LOCATION:  " + trans.Location);
+                Console.WriteLine("DIRECTION:  " + trans.Direction);
+                Console.WriteLine("TIMESTAMP:  " + trans.TimeStamp);
+                Console.WriteLine(" DISP. ID:  " + trans.DispatcherId);
+                Console.WriteLine("===========================");
+            }
+        }
     }
 }

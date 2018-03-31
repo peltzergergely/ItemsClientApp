@@ -48,16 +48,13 @@ namespace WarehouseClient
 
             try
             {
-                var transactionList = client.Execute<List<Transaction>>(request).Data;
+                transList = client.Execute<List<Transaction>>(request).Data;
 
                 if (!onlyData)
                 {
                     Console.WriteLine();
                     Console.WriteLine("===========================");
-                }
-                foreach (var transaction in transactionList)
-                {
-                    if (true)
+                    foreach (var transaction in transList)
                     {
                         Console.WriteLine("TRANS. ID:  " + transaction.Id);
                         Console.WriteLine(" ORDER ID:  " + transaction.OrderId);
@@ -69,7 +66,6 @@ namespace WarehouseClient
                         Console.WriteLine(" DISP. ID:  " + transaction.DispatcherId);
                         Console.WriteLine("===========================");
                     }
-                    transList.Add(transaction);
                 }
             }
             catch (Exception msg)
@@ -86,7 +82,7 @@ namespace WarehouseClient
             var order = new Order();
 
             Console.WriteLine("\n\n** CREATE TRANSACTION **\n");
-            Console.Write    ("        Order ID: ");
+            Console.Write("        Order ID: ");
             int orderId = int.Parse(Console.ReadLine());
             //get order details
             order = order.GetOrderById(orderId);
@@ -96,17 +92,17 @@ namespace WarehouseClient
             Console.WriteLine("       *QUANTITY: " + order.Quantity);
             Console.WriteLine("      *DIRECTION: " + order.Direction + "\n");
             transaction.Direction = order.Direction;
-            Console.Write    ("            GATE: ");
+            Console.Write("            GATE: ");
             transaction.Gate = int.Parse(Console.ReadLine());
-            Console.Write    ("TIME(MM-dd HH:mm): ");
+            Console.Write("TIME(MM-dd HH:mm): ");
             transaction.Time = Console.ReadLine();
-            Console.Write    ("         LOCATION: ");
+            Console.Write("         LOCATION: ");
             transaction.Location = int.Parse(Console.ReadLine());
             DateTime myDateTime = DateTime.Now;
             transaction.TimeStamp = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-            Console.Write    ("        TIMESTAMP: " + transaction.TimeStamp + "\n");
+            Console.Write("        TIMESTAMP: " + transaction.TimeStamp + "\n");
             transaction.DispatcherId = 1;
-            Console.Write    ("    DISPATCHER ID: " + transaction.DispatcherId.ToString() + "\n");
+            Console.Write("    DISPATCHER ID: " + transaction.DispatcherId.ToString() + "\n");
 
             var request = new RestRequest("api/Transactions/", Method.POST);
             request.AddJsonBody(transaction);

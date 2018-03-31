@@ -22,7 +22,7 @@ namespace WarehouseClient
                 if (userInput == 1)
                 {
                     Console.Clear();
-                    CostumerConsole custcon = new CostumerConsole();
+                    CustomerConsole custcon = new CustomerConsole();
                     custcon.InputHandler();
                     Console.Clear();
                 }

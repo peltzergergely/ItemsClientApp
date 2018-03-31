@@ -137,20 +137,22 @@ namespace WarehouseClient
                 Resource = "api/orders/"
             };
 
-            var ListOfCustomerOrders = new List<Order>();
+            var ListofOrders = new List<Order>();
+            var ListofCustomerOrders = new List<Order>();
 
             try
             {
-                var restResult = client.Execute<List<Order>>(request).Data;
+                ListofOrders = client.Execute<List<Order>>(request).Data;
+                foreach (var item in ListofOrders.Where(n => n.CostumerId == customerId))
+                {
+                    ListofCustomerOrders.Add(item);
+                }
 
                 if (!onlyData)
                 {
                     Console.WriteLine();
                     Console.WriteLine("===========================");
-                }
-                foreach (var item in restResult.Where(n => n.CostumerId == customerId))
-                {
-                    if (!onlyData)
+                    foreach (var item in ListofCustomerOrders)
                     {
                         Console.WriteLine("        ID:  " + item.Id);
                         Console.WriteLine("CostumerId:  " + item.CostumerId);
@@ -161,16 +163,13 @@ namespace WarehouseClient
                         Console.WriteLine(" TimeStamp:  " + item.TimeStamp);
                         Console.WriteLine("===========================");
                     }
-                    ListOfCustomerOrders.Add(item);
                 }
             }
             catch (Exception msg)
             {
                 Console.WriteLine(msg.Message);
             }
-            Console.ReadLine();
-
-            return ListOfCustomerOrders;
+            return ListofCustomerOrders;
         }
 
         public void UpdateOrderStatus(int id, string status)
