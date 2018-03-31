@@ -72,16 +72,8 @@ namespace WarehouseClient
 
         private static void ListOfTransactionsByOrderForCustomer(Customer customer)
         {
-            //listorders alapján kellenek a tranzakciók
-            //végignézem tranzakciókat, és ahol order.ID = transaction.OrderID-val az jöhet ide
-            //kicsit deep, elfáradtam, nem müxik majd folytatom
-
-            //translist = LIST OF ALL TRANSACTION
-            //orderlist = list of order for THIS person
-            //i need the list of transactions where transaction.orderid = order.id
             customer.ListTransactions();
         }
-
         //show relevant transaction
         //list stored items
     }
