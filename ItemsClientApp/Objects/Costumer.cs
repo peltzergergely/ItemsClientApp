@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using RestSharp;
 using System.Configuration;
+using System.Net;
 
 namespace WarehouseClient
 {
@@ -26,8 +27,7 @@ namespace WarehouseClient
         [DataMember(Name = "FreeStorage")]
         public string FreeStorage { get; set; }
 
-        //login menu
-
+        //
         public Customer Login()
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
@@ -45,7 +45,6 @@ namespace WarehouseClient
             Console.Clear();
 
             request.Resource += customer.Name + "/" + customer.Pw;
-
             customer = client.Execute<Customer>(request).Data;
 
             Console.WriteLine();
@@ -81,5 +80,7 @@ namespace WarehouseClient
                 Console.WriteLine("===========================");
             }
         }
+
+        //on creating 
     }
 }

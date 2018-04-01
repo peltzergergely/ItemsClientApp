@@ -18,16 +18,20 @@ namespace WarehouseClient
         public int OwnerId { get; set; }
 
         [DataMember(Name = "Location")]
-        public int Location { get; set; }
+        public string Location { get; set; }
 
         [DataMember(Name = "Status")]
         public string Status { get; set; }
 
         //GET ALL OR BY ID
-        public void GetItems()
+        public List<Item> GetItems(bool onlyData, string id = "")
         {
-            Console.Write("ADD ID OR LEAVE EMPTY: ");
-            var id = Console.ReadLine();
+            if (!onlyData)
+            {
+                Console.Write("ADD ID OR LEAVE EMPTY: ");
+                id = Console.ReadLine();
+            }
+
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
             {
@@ -41,45 +45,58 @@ namespace WarehouseClient
                 request.Resource += id;
             }
 
+            var itemList = new List<Item>();
+
             try
             {
                 var restResult = client.Execute<List<Item>>(request).Data;
 
-                Console.WriteLine();
-                Console.WriteLine("===========================");
+                if (!onlyData)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("===========================");
+                }
                 foreach (var item in restResult)
                 {
-                    Console.WriteLine("       ID:  " + item.Id);
-                    Console.WriteLine("ITEM NAME:  " + item.Name);
-                    Console.WriteLine("  OWNERID:  " + item.OwnerId);
-                    Console.WriteLine(" LOCATION:  " + item.Location);
-                    Console.WriteLine("   STATUS:  " + item.Status);
-                    Console.WriteLine("===========================");
+                    if (!onlyData)
+                    {
+                        Console.WriteLine("       ID:  " + item.Id);
+                        Console.WriteLine("ITEM NAME:  " + item.Name);
+                        Console.WriteLine("  OWNERID:  " + item.OwnerId);
+                        Console.WriteLine(" LOCATION:  " + item.Location);
+                        Console.WriteLine("   STATUS:  " + item.Status);
+                        Console.WriteLine("===========================");
+                    }
+                    itemList.Add(item);
                 }
             }
             catch (Exception msg)
             {
                 Console.WriteLine(msg.Message);
             }
+
+            return itemList;
         }
 
         //POST
-        public void AddItem()
+        public void AddItem(bool onlyData)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
-            var itemToAdd = new Item();
 
-            Console.Write("ITEM NAME: ");
-            itemToAdd.Name = Console.ReadLine();
-            Console.Write(" OWNER ID: ");
-            itemToAdd.OwnerId = int.Parse(Console.ReadLine());
-            Console.Write(" LOCATION: ");
-            itemToAdd.Location = int.Parse(Console.ReadLine());
-            Console.Write("   STATUS: ");
-            itemToAdd.Status = Console.ReadLine();
+            if (!onlyData)
+            {
+                Console.Write("ITEM NAME: ");
+                this.Name = Console.ReadLine();
+                Console.Write(" OWNER ID: ");
+                this.OwnerId = int.Parse(Console.ReadLine());
+                Console.Write(" LOCATION: ");
+                this.Location = Console.ReadLine();
+                Console.Write("   STATUS: ");
+                this.Status = Console.ReadLine();
+            }
 
             var request = new RestRequest("api/items/", Method.POST);
-            request.AddJsonBody(itemToAdd);
+            request.AddJsonBody(this);
             client.Execute(request);
         }
 
@@ -95,28 +112,32 @@ namespace WarehouseClient
         }
 
         //PUT
-        public void PutItem()
+        public void PutItem(bool onlyData, int id = 0)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
-            var itemToAdd = new Item();
 
-            Console.Write("  ITEM ID: ");
-            itemToAdd.Id = int.Parse(Console.ReadLine());
-            Console.Write("ITEM NAME: ");
-            itemToAdd.Name = Console.ReadLine();
-            Console.Write("    OWNER: ");
-            itemToAdd.OwnerId = int.Parse(Console.ReadLine());
-            Console.Write(" POSITION: ");
-            itemToAdd.Location = int.Parse(Console.ReadLine());
-            Console.Write("   STATUS: ");
-            itemToAdd.Status = Console.ReadLine();
+            this.Id = id;
+
+            if (!onlyData)
+            {
+                Console.Write("  ITEM ID: ");
+                this.Id = int.Parse(Console.ReadLine());
+                Console.Write("ITEM NAME: ");
+                this.Name = Console.ReadLine();
+                Console.Write("    OWNER: ");
+                this.OwnerId = int.Parse(Console.ReadLine());
+                Console.Write(" POSITION: ");
+                this.Location = Console.ReadLine();
+                Console.Write("   STATUS: ");
+                this.Status = Console.ReadLine();
+            }
 
             var request = new RestRequest(Method.PUT)
             {
                 OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
-                Resource = "api/items/" + itemToAdd.Id
+                Resource = "api/items/" + this.Id
             };
-            request.AddJsonBody(itemToAdd);
+            request.AddJsonBody(this);
             client.Execute(request);
         }
     }

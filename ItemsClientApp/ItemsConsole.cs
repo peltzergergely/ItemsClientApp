@@ -18,11 +18,11 @@ namespace WarehouseClient
             {
                 userInput = DisplayMenu();
                 if (userInput == 1)
-                    item.GetItems();
+                    item.GetItems(false);
                 if (userInput == 2)
-                    item.AddItem();
+                    item.AddItem(false);
                 if (userInput == 3)
-                    item.PutItem();
+                    item.PutItem(false);
                 if (userInput == 4)
                     item.DeleteItem();
             } while (userInput != 0);

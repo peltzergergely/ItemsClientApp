@@ -54,7 +54,7 @@ namespace WarehouseClient
                 Console.WriteLine("\n\n** DEPOSIT **\n");
             }
 
-            Console.Write("COSTUMER ID: " + customer.Id + "\n");
+            Console.Write("CUSTOMER ID: " + customer.Id + "\n");
             order.CostumerId = customer.Id;
             Console.Write("  ITEM NAME: ");
             order.ItemName = Console.ReadLine();
@@ -70,6 +70,8 @@ namespace WarehouseClient
             var request = new RestRequest("api/orders/", Method.POST);
             request.AddJsonBody(order);
             client.Execute(request);
+
+
             Console.ReadLine();
         }
 

@@ -24,7 +24,7 @@ namespace WarehouseClient
         public string Time { get; set; }
 
         [DataMember(Name = "Location")]
-        public int Location { get; set; }
+        public string Location { get; set; }
 
         [DataMember(Name = "Direction")]
         public string Direction { get; set; }
@@ -87,6 +87,18 @@ namespace WarehouseClient
             //get order details
             order = order.GetOrderById(orderId);
 
+            //if withrawal, get the right itemlist and list locations!
+            if (order.Direction == "Withdrawal")
+            {
+                var item = new Item();
+                var itemList = new List<Item>(item.GetItems(true));
+
+                foreach (var i in itemList.Where(a => a.OwnerId == order.CostumerId && a.Name == order.ItemName && a.Status == "In Place"))
+                {
+                    Console.WriteLine("LOCATION IN SYSTEM: " + i.Location);    
+                }
+            }
+            //Form and data input
             transaction.OrderId = order.Id;
             Console.WriteLine("      *ITEM NAME: " + order.ItemName);
             Console.WriteLine("       *QUANTITY: " + order.Quantity);
@@ -97,7 +109,7 @@ namespace WarehouseClient
             Console.Write("TIME(MM-dd HH:mm): ");
             transaction.Time = Console.ReadLine();
             Console.Write("         LOCATION: ");
-            transaction.Location = int.Parse(Console.ReadLine());
+            transaction.Location = Console.ReadLine();
             DateTime myDateTime = DateTime.Now;
             transaction.TimeStamp = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
             Console.Write("        TIMESTAMP: " + transaction.TimeStamp + "\n");
@@ -107,6 +119,28 @@ namespace WarehouseClient
             var request = new RestRequest("api/Transactions/", Method.POST);
             request.AddJsonBody(transaction);
             client.Execute(request);
+
+            //create item
+            if (order.Direction == "Deposit")
+            {
+                var item = new Item();
+                item.Name = order.ItemName;
+                item.OwnerId = order.CostumerId;
+                item.Location = transaction.Location;
+                item.Status = "Waiting for " + order.Direction;
+                item.AddItem(true);
+            }
+            else //modify the item, location should come from here
+            {
+                var item = new Item();
+                var itemList = new List<Item>(item.GetItems(true));
+
+                foreach (var i in itemList.Where(a => a.OwnerId == order.CostumerId && a.Name == order.ItemName))
+                {
+                    i.Status = "Waiting for " + order.Direction;
+                    i.PutItem(true, i.Id);
+                }
+            }
 
             //change the status of the order
             order.UpdateOrderStatus(order.Id, "processed");
