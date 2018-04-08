@@ -11,19 +11,25 @@ namespace ItemsClientApp
     {
         public void InputHandler()
         {
-            int userInput = 0;
-            do
+            var storekeeper = new Storekeeper();
+            storekeeper = LoginStorekeeper();
+
+            if (storekeeper.Id != 0)
             {
-                userInput = StorekeeperMenu();
-                if (userInput == 1)
-                    GetTransactions();
-                if (userInput == 2)
-                    StorekeeperMenu();
-                if (userInput == 3)
-                    StorekeeperMenu();
-                if (userInput == 4)
-                    StorekeeperMenu();
-            } while (userInput != 0);
+                int userInput = 0;
+                do
+                {
+                    userInput = StorekeeperMenu();
+                    if (userInput == 1)
+                        GetTransactions();
+                    if (userInput == 2)
+                        StorekeeperMenu();
+                    if (userInput == 3)
+                        StorekeeperMenu();
+                    if (userInput == 4)
+                        StorekeeperMenu();
+                } while (userInput != 0);
+            }
         }
 
         static public int StorekeeperMenu()
@@ -34,7 +40,7 @@ namespace ItemsClientApp
             Console.WriteLine("2. .........");
             Console.WriteLine("3. .........");
             Console.WriteLine("4. .........");
-            Console.WriteLine("0. Exit");
+            Console.WriteLine("0. Exit\n");
             Console.Write("INPUT: ");
             var result = Console.ReadLine();
             Console.Clear();
@@ -47,6 +53,12 @@ namespace ItemsClientApp
                 Console.WriteLine("\n ** INPUT CAN ONLY BE NUMERIC PLEASE TRY AGAIN **");
                 return 9;
             }
+        }
+
+        private static Storekeeper LoginStorekeeper()
+        {
+            var storekeeper = new Storekeeper();
+            return storekeeper.Login();
         }
 
         private static void GetTransactions()

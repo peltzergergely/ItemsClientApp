@@ -10,7 +10,7 @@ using System.Net;
 
 namespace WarehouseClient
 {
-    class Dispatcher
+    class Storekeeper
     {
         [DataMember(Name = "Id")]
         public int Id { get; set; }
@@ -22,18 +22,18 @@ namespace WarehouseClient
         public string Pw { get; set; }
 
         //
-        public Dispatcher Login()
+        public Storekeeper Login()
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
             {
                 OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
-                Resource = "api/dispatchers/"
+                Resource = "api/storekeepers/"
             };
 
-            var dispatcher = new Dispatcher();
+            var storekeeper = new Storekeeper();
             Console.Write("\n Please enter name: ");
-            dispatcher.Name = Console.ReadLine();
+            storekeeper.Name = Console.ReadLine();
             Console.Write(" Please enter password: ");
             //jelszó elrejtése...
             String Str = "";
@@ -50,13 +50,13 @@ namespace WarehouseClient
                     Str = Str + s.ToString();
                 }
             }
-            dispatcher.Pw = Str;
+            storekeeper.Pw = Str;
             Console.Clear();
 
-            request.Resource += dispatcher.Name + "/" + dispatcher.Pw;
-            dispatcher = client.Execute<Dispatcher>(request).Data;
+            request.Resource += storekeeper.Name + "/" + storekeeper.Pw;
+            storekeeper = client.Execute<Storekeeper>(request).Data;
 
-            if (dispatcher.Name == null)
+            if (storekeeper.Name == null)
             {
                 Console.WriteLine("\n *** Invalid name or password! ***");
                 Console.WriteLine(" *** Please try again! ***");
@@ -66,10 +66,10 @@ namespace WarehouseClient
             {
                 Console.WriteLine();
                 Console.WriteLine("===========================");
-                Console.WriteLine("Welcome " + dispatcher.Name);
+                Console.WriteLine("Welcome " + storekeeper.Name);
                 Console.WriteLine();
             }
-            return dispatcher;
+            return storekeeper;
         }
     }
 }

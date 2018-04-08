@@ -38,22 +38,47 @@ namespace WarehouseClient
             };
 
             var customer = new Customer();
-            Console.Write("Név: ");
+            Console.Write("\n Please enter name: ");
             customer.Name = Console.ReadLine();
-            Console.Write("Jelszó: ");
-            customer.Pw = Console.ReadLine();
+            Console.Write("\b Please enter password: \b");
+            
+            //jelszó elrejtése...
+            String Str = "";
+            Boolean asd = true;
+            while (asd)
+            {
+                char s = Console.ReadKey(true).KeyChar;
+                if (s == '\r')
+                {
+                    asd = false;
+                }
+                else
+                {
+                    Str = Str + s.ToString();
+                }
+            }
+            customer.Pw = Str;
+
             Console.Clear();
 
             request.Resource += customer.Name + "/" + customer.Pw;
             customer = client.Execute<Customer>(request).Data;
 
-            Console.WriteLine();
-            Console.WriteLine("===========================");
-            Console.WriteLine("Welcome " + customer.Name);
-            Console.Write("  ALLSTORAGE: " + customer.AllStorage);
-            Console.Write("  USED STORAGE: " + customer.FreeStorage);
-            Console.WriteLine();
-
+            if (customer.Name == null)
+            {
+                Console.WriteLine("\n *** Invalid name or password! ***");
+                Console.WriteLine(" *** Please try again! ***");
+                System.Threading.Thread.Sleep(4000);
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("===========================");
+                Console.WriteLine("Welcome " + customer.Name + "\n");
+                Console.Write("  ALLSTORAGE: " + customer.AllStorage);
+                Console.Write("  USED STORAGE: " + customer.FreeStorage);
+                Console.WriteLine();
+            }
             return customer;
         }
 

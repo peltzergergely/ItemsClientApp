@@ -11,19 +11,25 @@ namespace WarehouseClient
     {
         public void InputHandler()
         {
-            int userInput = 0;
-            do
+            var dispatcher = new Dispatcher();
+            dispatcher = LoginDispatcher();
+
+            if (dispatcher.Id != 0)
             {
-                userInput = ChoseUserMenu();
-                if (userInput == 1)
-                    GetOrders();
-                if (userInput == 2)
-                    CreateTransaction();
-                if (userInput == 3)
-                    ChoseUserMenu();
-                if (userInput == 4)
-                    ChoseUserMenu();
-            } while (userInput != 0);
+                int userInput = 0;
+                do
+                {
+                    userInput = ChoseUserMenu();
+                    if (userInput == 1)
+                        GetOrders();
+                    if (userInput == 2)
+                        CreateTransaction();
+                    if (userInput == 3)
+                        ChoseUserMenu();
+                    if (userInput == 4)
+                        ChoseUserMenu();
+                } while (userInput != 0);
+            }
         }
 
         static public int ChoseUserMenu()
@@ -34,7 +40,7 @@ namespace WarehouseClient
             Console.WriteLine("2. Create Transaction");
             Console.WriteLine("3. .........");
             Console.WriteLine("4. .........");
-            Console.WriteLine("0. Exit");
+            Console.WriteLine("0. Exit\n");
             Console.Write("INPUT: ");
             var result = Console.ReadLine();
             Console.Clear();
@@ -47,6 +53,12 @@ namespace WarehouseClient
                 Console.WriteLine("\n ** INPUT CAN ONLY BE NUMERIC PLEASE TRY AGAIN **");
                 return 9;
             }
+        }
+
+        private static Dispatcher LoginDispatcher()
+        {
+            var dispatcher = new Dispatcher();
+            return dispatcher.Login();
         }
 
         private static void GetOrders()

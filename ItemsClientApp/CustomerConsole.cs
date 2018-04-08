@@ -14,19 +14,22 @@ namespace WarehouseClient
             var customer = new Customer();
             customer = LoginCustomer();
 
-            int userInput = 0;
-            do
+            if (customer.Id != 0)
             {
-                userInput = ChoseUserMenu();
-                if (userInput == 1)
-                    PlaceOrder(customer);
-                if (userInput == 2)
-                    ListOrders(customer.Id);
-                if (userInput == 3)
-                    ListOfTransactionsByOrderForCustomer(customer);
-                if (userInput == 4)
-                    ChoseUserMenu();
-            } while (userInput != 0);
+                int userInput = 0;
+                do
+                {
+                    userInput = ChoseUserMenu();
+                    if (userInput == 1)
+                        PlaceOrder(customer);
+                    if (userInput == 2)
+                        ListOrders(customer.Id);
+                    if (userInput == 3)
+                        ListOfTransactionsByOrderForCustomer(customer);
+                    if (userInput == 4)
+                        ChoseUserMenu();
+                } while (userInput != 0);
+            }
         }
 
         static public int ChoseUserMenu()
@@ -37,7 +40,7 @@ namespace WarehouseClient
             Console.WriteLine("2. Submitted Orders");
             Console.WriteLine("3. Transactions");
             Console.WriteLine("4. .........");
-            Console.WriteLine("0. Exit");
+            Console.WriteLine("0. Exit\n");
             Console.Write("INPUT: ");
             var result = Console.ReadLine();
             Console.Clear();
