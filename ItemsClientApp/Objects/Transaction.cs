@@ -35,6 +35,9 @@ namespace WarehouseClient
         [DataMember(Name = "DispatcherId")]
         public int DispatcherId { get; set; }
 
+        [DataMember(Name = "Status")]
+        public string Status { get; set; }
+
         public List<Transaction> ListTransactions(bool onlyData)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
@@ -59,11 +62,12 @@ namespace WarehouseClient
                         Console.WriteLine("TRANS. ID:  " + transaction.Id);
                         Console.WriteLine(" ORDER ID:  " + transaction.OrderId);
                         Console.WriteLine("     GATE:  " + transaction.Gate);
-                        Console.WriteLine("     TIME:  " + transaction.Time);
+                        Console.WriteLine("  -  TIME:  " + transaction.Time);
                         Console.WriteLine(" LOCATION:  " + transaction.Location);
                         Console.WriteLine("DIRECTION:  " + transaction.Direction);
                         Console.WriteLine("TIMESTAMP:  " + transaction.TimeStamp);
                         Console.WriteLine(" DISP. ID:  " + transaction.DispatcherId);
+                        Console.WriteLine("   STATUS:  " + transaction.Status);
                         Console.WriteLine("===========================");
                     }
                 }
@@ -74,7 +78,7 @@ namespace WarehouseClient
             }
             return transList;
         }
-
+        //tranzakció létrehozás
         public void AddTransaction()
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
@@ -115,6 +119,8 @@ namespace WarehouseClient
             Console.Write("        TIMESTAMP: " + transaction.TimeStamp + "\n");
             transaction.DispatcherId = 1;
             Console.Write("    DISPATCHER ID: " + transaction.DispatcherId.ToString() + "\n");
+            transaction.Status = "in-progress";
+            Console.Write("     STATUS: In-progress\n");
 
             var request = new RestRequest("api/Transactions/", Method.POST);
             request.AddJsonBody(transaction);

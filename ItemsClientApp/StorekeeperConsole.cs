@@ -54,13 +54,13 @@ namespace ItemsClientApp
                 return 9;
             }
         }
-
+        //raktáros belépés
         private static Storekeeper LoginStorekeeper()
         {
             var storekeeper = new Storekeeper();
             return storekeeper.Login();
         }
-
+        //tranzakciók lekérése
         private static void GetTransactions()
         {
             var transaction = new Transaction();

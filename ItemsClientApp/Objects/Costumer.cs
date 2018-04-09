@@ -102,6 +102,7 @@ namespace WarehouseClient
                 Console.WriteLine("DIRECTION:  " + trans.Direction);
                 Console.WriteLine("TIMESTAMP:  " + trans.TimeStamp);
                 Console.WriteLine(" DISP. ID:  " + trans.DispatcherId);
+                Console.WriteLine("   STATUS:  " + trans.Status);
                 Console.WriteLine("===========================");
             }
         }

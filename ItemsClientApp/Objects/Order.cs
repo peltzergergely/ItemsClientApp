@@ -30,7 +30,8 @@ namespace WarehouseClient
 
         [DataMember(Name = "TimeStamp")]
         public string TimeStamp { get; set; }
-
+        
+        //új rendelés leadás ügyfél által
         public void AddOrder(Customer customer)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
@@ -40,6 +41,7 @@ namespace WarehouseClient
 
             Console.WriteLine("1. Deposit");
             Console.WriteLine("2. Withdrawal");
+            Console.Write("INPUT: ");
             var direction = Console.ReadLine();
             if (direction == "2")
             {
@@ -74,7 +76,8 @@ namespace WarehouseClient
 
             Console.ReadLine();
         }
-
+        
+        //rendelések lekérdezése
         public Order GetOrderById(int id)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
@@ -96,7 +99,8 @@ namespace WarehouseClient
             }
             return order;
         }
-
+        
+        //jóváhagyásra váró rendelések lekérése
         public void ListPendingOrders()
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
@@ -129,7 +133,8 @@ namespace WarehouseClient
                 Console.WriteLine(msg.Message);
             }
         }
-
+        
+        //rendelések lekérése ügyfél szerint
         public List<Order> ListCustomerOrders(int customerId, bool onlyData)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
@@ -174,6 +179,7 @@ namespace WarehouseClient
             return ListofCustomerOrders;
         }
 
+        
         public void UpdateOrderStatus(int id, string status)
         {
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
