@@ -23,7 +23,7 @@ namespace ItemsClientApp
                     if (userInput == 1)
                         GetTransactions();
                     if (userInput == 2)
-                        StorekeeperMenu();
+                        CreateReceipt(storekeeper.Id);
                     if (userInput == 3)
                         StorekeeperMenu();
                     if (userInput == 4)
@@ -37,7 +37,7 @@ namespace ItemsClientApp
             Console.WriteLine("\n");
             Console.WriteLine("** STOREKEEPER MENU **\n");
             Console.WriteLine("1. List Transactions");
-            Console.WriteLine("2. .........");
+            Console.WriteLine("2. Create Receipt");
             Console.WriteLine("3. .........");
             Console.WriteLine("4. .........");
             Console.WriteLine("0. Exit\n");
@@ -66,6 +66,12 @@ namespace ItemsClientApp
             var transaction = new Transaction();
             transaction.ListTransactions(false);
         }
-
+        //nyugta létrehozása
+        private static void CreateReceipt(int storekeeperID)
+        {
+            var storekID = storekeeperID;
+            var receipt = new Receipt();
+            receipt.AddReceipt(storekID);
+        }
     }
 }
