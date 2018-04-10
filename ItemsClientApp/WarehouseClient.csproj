@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Receipt.cs" />
     <Compile Include="Objects\Storekeeper.cs" />
     <Compile Include="Objects\Costumer.cs" />
     <Compile Include="CustomerConsole.cs" />
