@@ -78,6 +78,31 @@ namespace WarehouseClient
             }
             return transList;
         }
+
+
+        public Transaction GetTransactionById(int id)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/Transactions/" + id
+            };
+
+            var transaction = new Transaction();
+
+            try
+            {
+                transaction = client.Execute<Transaction>(request).Data;
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
+            return transaction;
+        }
+        
+        
         //tranzakció létrehozás
         public void AddTransaction()
         {
