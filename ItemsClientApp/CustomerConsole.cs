@@ -27,7 +27,7 @@ namespace WarehouseClient
                     if (userInput == 3)
                         ListOfTransactionsByOrderForCustomer(customer);
                     if (userInput == 4)
-                        ChoseUserMenu();
+                        ListReceipts(customer.Id);
                 } while (userInput != 0);
             }
         }
@@ -39,7 +39,7 @@ namespace WarehouseClient
             Console.WriteLine("1. New Order");
             Console.WriteLine("2. Submitted Orders");
             Console.WriteLine("3. Transactions");
-            Console.WriteLine("4. .........");
+            Console.WriteLine("4. Receipts");
             Console.WriteLine("0. Exit\n");
             Console.Write("INPUT: ");
             var result = Console.ReadLine();
@@ -76,6 +76,12 @@ namespace WarehouseClient
         private static void ListOfTransactionsByOrderForCustomer(Customer customer)
         {
             customer.ListTransactions();
+        }
+
+        private static void ListReceipts(int customerId)
+        {
+            var receipt = new Receipt();
+            receipt.ListCustomerReceipts(customerId, false);
         }
         //show relevant transaction
         //list stored items
