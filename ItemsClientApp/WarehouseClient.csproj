@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="Objects\Receipt.cs" />
     <Compile Include="Objects\Storekeeper.cs" />
-    <Compile Include="Objects\Costumer.cs" />
+    <Compile Include="Objects\Customer.cs" />
     <Compile Include="CustomerConsole.cs" />
     <Compile Include="DispatcherConsole.cs" />
     <Compile Include="ItemsConsole.cs" />
