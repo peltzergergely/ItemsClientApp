@@ -35,13 +35,16 @@ namespace WarehouseClient
         static public int ChoseUserMenu()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("** CUSTOMER MENU **\n");
-            Console.WriteLine("1. New Order");
-            Console.WriteLine("2. Submitted Orders");
-            Console.WriteLine("3. Transactions");
-            Console.WriteLine("4. Receipts");
-            Console.WriteLine("0. Exit\n");
-            Console.Write("INPUT: ");
+            Console.WriteLine("-------------------------------------");
+            Console.WriteLine("        ** CUSTOMER MENU **");
+            Console.WriteLine("-------------------------------------\n");
+            Console.WriteLine(" 1. New Order");
+            Console.WriteLine(" 2. Submitted Orders");
+            Console.WriteLine(" 3. Transactions");
+            Console.WriteLine(" 4. Receipts\n");
+            Console.WriteLine(" 0. Exit\n");
+            Console.WriteLine("-------------------------------------\n");
+            Console.Write(" Chose Option: ");
             var result = Console.ReadLine();
             Console.Clear();
             try

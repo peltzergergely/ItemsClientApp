@@ -60,11 +60,11 @@ namespace WarehouseClient
             Console.WriteLine("-------------------------------------\n");
             Console.WriteLine("   1. COSTUMER");
             Console.WriteLine("   2. DISPATCHER");
-            Console.WriteLine("   3. STOREKEEPER");
-            Console.WriteLine("   4. ITEMS\n");
+            Console.WriteLine("   3. STOREKEEPER\n");
+            //Console.WriteLine("   4. ITEMS\n");
             Console.WriteLine("   0. EXIT\n");
             Console.WriteLine("-------------------------------------\n");
-            Console.Write("Chose Option: ");
+            Console.Write(" Chose Option: ");
             var result = Console.ReadLine();
             Console.Clear();
             try
@@ -76,8 +76,6 @@ namespace WarehouseClient
                 Console.WriteLine("\n ** INPUT CAN ONLY BE NUMERIC PLEASE TRY AGAIN **");
                 return 9;
             }
-
-
         }
 
         private static void TestConnection()

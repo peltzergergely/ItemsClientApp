@@ -57,13 +57,16 @@ namespace WarehouseClient
             Console.Write("        TIMESTAMP: " + receipt.TimeStamp + "\n");
             
             receipt.StorekeeperId = storekID;
-            Console.Write("         STOREKEEPER ID: " + receipt.StorekeeperId.ToString() + "\n");
-            Console.Write("         COMMENT: ");
+            Console.Write("        STOREKEEPER ID: " + receipt.StorekeeperId.ToString() + "\n");
+            Console.Write("        COMMENT: ");
             receipt.Comment = Console.ReadLine();
 
             var request = new RestRequest("api/Receipts/", Method.POST);
             request.AddJsonBody(receipt);
             client.Execute(request);
+            
+            //change the status of the transaction
+            transaction.UpdateTransactionStatus(transaction.Id, "completed");
         }
 
 

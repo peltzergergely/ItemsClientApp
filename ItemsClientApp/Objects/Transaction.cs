@@ -56,7 +56,7 @@ namespace WarehouseClient
                 if (!onlyData)
                 {
                     Console.WriteLine();
-                    Console.WriteLine("===========================");
+                    Console.WriteLine("===============================");
                     foreach (var transaction in transList)
                     {
                         Console.WriteLine("TRANS. ID:  " + transaction.Id);
@@ -68,7 +68,7 @@ namespace WarehouseClient
                         Console.WriteLine("TIMESTAMP:  " + transaction.TimeStamp);
                         Console.WriteLine(" DISP. ID:  " + transaction.DispatcherId);
                         Console.WriteLine("   STATUS:  " + transaction.Status);
-                        Console.WriteLine("===========================");
+                        Console.WriteLine("===============================");
                     }
                 }
             }
@@ -176,6 +176,28 @@ namespace WarehouseClient
             //change the status of the order
             order.UpdateOrderStatus(order.Id, "processed");
             Console.ReadLine();
+        }
+
+        //tranzakció státuszának átírása
+        public void UpdateTransactionStatus(int id, string status)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var transaction = new Transaction();
+
+            transaction = transaction.GetTransactionById(id);
+            transaction.Status = status;
+
+            Console.WriteLine(id + "\n");
+            Console.WriteLine(status + "\n");
+            System.Threading.Thread.Sleep(4000);
+
+            var request = new RestRequest(Method.PUT)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/Transactions/" + transaction.Id
+            };
+            request.AddJsonBody(transaction);
+            client.Execute(request);
         }
     }
 }

@@ -74,9 +74,11 @@ namespace WarehouseClient
             {
                 Console.WriteLine();
                 Console.WriteLine("===========================");
-                Console.WriteLine("Welcome " + customer.Name + "\n");
-                Console.Write("  ALLSTORAGE: " + customer.AllStorage);
-                Console.Write("  USED STORAGE: " + customer.FreeStorage);
+                Console.WriteLine(" Welcome " + customer.Name + "\n");
+                Console.Write("  ALL STORAGE: " + customer.AllStorage + "\n");
+                Console.Write("  FREE STORAGE: " + customer.FreeStorage + "\n");
+                int used = Convert.ToInt32(customer.AllStorage) - Convert.ToInt32(customer.FreeStorage);
+                Console.Write("  USED STORAGE: " + used);
                 Console.WriteLine();
             }
             return customer;
