@@ -37,6 +37,9 @@ namespace WarehouseClient
             var receipt = new Receipt();
             var transaction = new Transaction();
             var order = new Order();
+            var customer = new Customer();
+
+            
 
             Console.WriteLine("\n\n** CREATE RECEIPT **\n");
 
@@ -67,6 +70,23 @@ namespace WarehouseClient
             
             //change the status of the transaction
             transaction.UpdateTransactionStatus(transaction.Id, "completed");
+            customer = customer.GetCustomerById(order.CostumerId);
+
+            int newStorage = 0;
+            if (order.Direction == "Deposit")
+            {
+                newStorage = Convert.ToInt32(customer.FreeStorage) - order.Quantity;
+            }
+            else
+            {
+                newStorage = Convert.ToInt32(customer.FreeStorage) + order.Quantity;
+            }
+            //Console.Write(newStorage + "\n");
+
+            customer.FreeStorage = Convert.ToString(newStorage);
+            //Console.Write(customer.FreeStorage + "\n");
+            customer.UpdateCustomerFreeStorage(customer);
+
         }
 
 
