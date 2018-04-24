@@ -25,7 +25,7 @@ namespace WarehouseClient
                     if (userInput == 2)
                         CreateTransaction();
                     if (userInput == 3)
-                        ChoseUserMenu();
+                        ListAllTransactions();
                     if (userInput == 4)
                         ChoseUserMenu();
                 } while (userInput != 0);
@@ -38,7 +38,7 @@ namespace WarehouseClient
             Console.WriteLine("** DISPATCHER MENU **\n");
             Console.WriteLine("1. List New Orders");
             Console.WriteLine("2. Create Transaction");
-            Console.WriteLine("3. .........");
+            Console.WriteLine("3. List All Transactions");
             Console.WriteLine("4. .........");
             Console.WriteLine("0. Exit\n");
             Console.Write("INPUT: ");
@@ -71,6 +71,13 @@ namespace WarehouseClient
         {
             var transaction = new Transaction();
             transaction.AddTransaction();
+        }
+
+        //
+        private static void ListAllTransactions()
+        {
+            var transaction = new Transaction();
+            transaction.ListTransactions(false);
         }
     }
 }
