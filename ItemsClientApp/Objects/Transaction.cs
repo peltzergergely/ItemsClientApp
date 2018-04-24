@@ -40,6 +40,8 @@ namespace WarehouseClient
 
         public List<Transaction> ListTransactions(bool onlyData)
         {
+            
+
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest(Method.GET)
             {
@@ -62,7 +64,7 @@ namespace WarehouseClient
                         Console.WriteLine("TRANS. ID:  " + transaction.Id);
                         Console.WriteLine(" ORDER ID:  " + transaction.OrderId);
                         Console.WriteLine("     GATE:  " + transaction.Gate);
-                        Console.WriteLine("  -  TIME:  " + transaction.Time);
+                        Console.WriteLine("     TIME:  " + transaction.Time);
                         Console.WriteLine(" LOCATION:  " + transaction.Location);
                         Console.WriteLine("DIRECTION:  " + transaction.Direction);
                         Console.WriteLine("TIMESTAMP:  " + transaction.TimeStamp);
@@ -101,7 +103,46 @@ namespace WarehouseClient
             }
             return transaction;
         }
-        
+
+        //folyamatban lévő tranzakciók lekérése
+        public void ListInProgressTransactions()
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/transactions/"
+            };
+
+            var transList = new List<Transaction>();
+            try
+            {
+                transList = client.Execute<List<Transaction>>(request).Data;
+
+                Console.WriteLine();
+                Console.WriteLine("===============================");
+
+                //foreach (var item in restResult.Where(i => i.Status == "pending"))
+                    foreach (var transaction in transList.Where(i => i.Status == "in-progress"))
+                    {
+                        Console.WriteLine("TRANS. ID:  " + transaction.Id);
+                        Console.WriteLine(" ORDER ID:  " + transaction.OrderId);
+                        Console.WriteLine("     GATE:  " + transaction.Gate);
+                        Console.WriteLine("     TIME:  " + transaction.Time);
+                        Console.WriteLine(" LOCATION:  " + transaction.Location);
+                        Console.WriteLine("DIRECTION:  " + transaction.Direction);
+                        Console.WriteLine("TIMESTAMP:  " + transaction.TimeStamp);
+                        Console.WriteLine(" DISP. ID:  " + transaction.DispatcherId);
+                        Console.WriteLine("   STATUS:  " + transaction.Status);
+                        Console.WriteLine("===============================");
+                    }
+                
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
+        }
         
         //tranzakció létrehozás
         public void AddTransaction()
@@ -159,6 +200,7 @@ namespace WarehouseClient
                 item.OwnerId = order.CostumerId;
                 item.Location = transaction.Location;
                 item.Status = "Waiting for " + order.Direction;
+
                 item.AddItem(true);
             }
             else //modify the item, location should come from here
@@ -187,9 +229,9 @@ namespace WarehouseClient
             transaction = transaction.GetTransactionById(id);
             transaction.Status = status;
 
-            Console.WriteLine(id + "\n");
-            Console.WriteLine(status + "\n");
-            System.Threading.Thread.Sleep(4000);
+            //Console.WriteLine(id + "\n");
+            //Console.WriteLine(status + "\n");
+            //System.Threading.Thread.Sleep(4000);
 
             var request = new RestRequest(Method.PUT)
             {
