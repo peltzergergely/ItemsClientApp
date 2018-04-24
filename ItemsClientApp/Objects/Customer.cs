@@ -108,7 +108,44 @@ namespace WarehouseClient
                 Console.WriteLine("===========================");
             }
         }
+        //ügyfél lekérés id alapján
+        public Customer GetCustomerById(int id)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/customers/" + id
+            };
 
-        //on creating 
+            var customer = new Customer();
+
+            try
+            {
+                customer = client.Execute<Customer>(request).Data;
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
+            return customer;
+        }
+        
+        //ügyfél szabad tárhely módosítás
+        public void UpdateCustomerFreeStorage(Customer customer)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var cust = new Customer();
+
+            cust = customer;
+
+            var request = new RestRequest(Method.PUT)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/Customers/" + cust.Id
+            };
+            request.AddJsonBody(cust);
+            client.Execute(request);
+        }
     }
 }
