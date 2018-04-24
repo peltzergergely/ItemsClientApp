@@ -28,6 +28,8 @@ namespace WarehouseClient
                         ListOfTransactionsByOrderForCustomer(customer);
                     if (userInput == 4)
                         ListReceipts(customer.Id);
+                    if (userInput == 5)
+                        ListStoredItems(customer.Id);
                 } while (userInput != 0);
             }
         }
@@ -41,7 +43,8 @@ namespace WarehouseClient
             Console.WriteLine(" 1. New Order");
             Console.WriteLine(" 2. Submitted Orders");
             Console.WriteLine(" 3. Transactions");
-            Console.WriteLine(" 4. Receipts\n");
+            Console.WriteLine(" 4. Receipts");
+            Console.WriteLine(" 5. List Stored Items\n");
             Console.WriteLine(" 0. Exit\n");
             Console.WriteLine("-------------------------------------\n");
             Console.Write(" Chose Option: ");
@@ -87,6 +90,13 @@ namespace WarehouseClient
             receipt.ListCustomerReceipts(customerId, false);
         }
         //show relevant transaction
+        
         //list stored items
+        private static void ListStoredItems(int customerId)
+        {
+            var item = new Item();
+            item.GetItemsByCustomerId(customerId);
+            
+        }
     }
 }
