@@ -25,7 +25,7 @@ namespace ItemsClientApp
                     if (userInput == 2)
                         CreateReceipt(storekeeper.Id);
                     if (userInput == 3)
-                        StorekeeperMenu();
+                        GetInProgressTransactions();
                     if (userInput == 4)
                         StorekeeperMenu();
                 } while (userInput != 0);
@@ -38,7 +38,7 @@ namespace ItemsClientApp
             Console.WriteLine("** STOREKEEPER MENU **\n");
             Console.WriteLine("1. List Transactions");
             Console.WriteLine("2. Create Receipt");
-            Console.WriteLine("3. .........");
+            Console.WriteLine("3. List InProgress Transactions");
             Console.WriteLine("4. .........");
             Console.WriteLine("0. Exit\n");
             Console.Write("INPUT: ");
@@ -72,6 +72,12 @@ namespace ItemsClientApp
             var storekID = storekeeperID;
             var receipt = new Receipt();
             receipt.AddReceipt(storekID);
+        }
+        //folyamatban lévő tranzakciók lekérése
+        private static void GetInProgressTransactions()
+        {
+            var transaction = new Transaction();
+            transaction.ListInProgressTransactions();
         }
     }
 }
