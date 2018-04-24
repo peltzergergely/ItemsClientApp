@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace WarehouseClient
@@ -76,6 +77,38 @@ namespace WarehouseClient
             }
 
             return itemList;
+        }
+
+        //Get Items by customer ID
+        public void GetItemsByCustomerId(int custId)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/items/"
+            };
+
+            try
+            {
+                var restResult = client.Execute<List<Item>>(request).Data;
+                Console.WriteLine();
+                Console.WriteLine("===========================");
+
+                foreach (var item in restResult.Where(i => i.OwnerId == custId))
+                {
+                    Console.WriteLine("       ID:  " + item.Id);
+                    Console.WriteLine("ITEM NAME:  " + item.Name);
+                    Console.WriteLine("  OWNERID:  " + item.OwnerId);
+                    Console.WriteLine(" LOCATION:  " + item.Location);
+                    Console.WriteLine("   STATUS:  " + item.Status);
+                    Console.WriteLine("===========================");
+                }
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
         }
 
         //POST
