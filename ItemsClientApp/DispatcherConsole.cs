@@ -27,7 +27,7 @@ namespace WarehouseClient
                     if (userInput == 3)
                         ListAllTransactions();
                     if (userInput == 4)
-                        ChoseUserMenu();
+                        ListAllItems();
                 } while (userInput != 0);
             }
         }
@@ -39,7 +39,7 @@ namespace WarehouseClient
             Console.WriteLine("1. List New Orders");
             Console.WriteLine("2. Create Transaction");
             Console.WriteLine("3. List All Transactions");
-            Console.WriteLine("4. .........");
+            Console.WriteLine("4. List All Items");
             Console.WriteLine("0. Exit\n");
             Console.Write("INPUT: ");
             var result = Console.ReadLine();
@@ -73,11 +73,16 @@ namespace WarehouseClient
             transaction.AddTransaction();
         }
 
-        //
         private static void ListAllTransactions()
         {
             var transaction = new Transaction();
             transaction.ListTransactions(false);
+        }
+
+        private static void ListAllItems()
+        {
+            var item = new Item();
+            item.GetItems(false);
         }
     }
 }

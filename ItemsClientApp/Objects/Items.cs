@@ -24,6 +24,9 @@ namespace WarehouseClient
         [DataMember(Name = "Status")]
         public string Status { get; set; }
 
+        [DataMember(Name = "OrderId")]
+        public int OrderId { get; set; }
+
         //GET ALL OR BY ID
         public List<Item> GetItems(bool onlyData, string id = "")
         {
@@ -66,6 +69,7 @@ namespace WarehouseClient
                         Console.WriteLine("  OWNERID:  " + item.OwnerId);
                         Console.WriteLine(" LOCATION:  " + item.Location);
                         Console.WriteLine("   STATUS:  " + item.Status);
+                        Console.WriteLine("  ORDERID:  " + item.OrderId);
                         Console.WriteLine("===========================");
                     }
                     itemList.Add(item);
@@ -102,6 +106,7 @@ namespace WarehouseClient
                     Console.WriteLine("  OWNERID:  " + item.OwnerId);
                     Console.WriteLine(" LOCATION:  " + item.Location);
                     Console.WriteLine("   STATUS:  " + item.Status);
+                    Console.WriteLine("  ORDERID:  " + item.OrderId);
                     Console.WriteLine("===========================");
                 }
             }
@@ -110,6 +115,29 @@ namespace WarehouseClient
                 Console.WriteLine(msg.Message);
             }
         }
+
+        //GET Item by OrderID
+        public Item GetItemById(int orderId)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest(Method.GET)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/items/" + orderId
+            };
+            var item = new Item();
+
+            try
+            {
+                item = client.Execute<Item>(request).Data;
+            }
+            catch (Exception msg)
+            {
+                Console.WriteLine(msg.Message);
+            }
+            return item;
+        }
+
 
         //POST
         public void AddItem(bool onlyData)
@@ -126,6 +154,8 @@ namespace WarehouseClient
                 this.Location = Console.ReadLine();
                 Console.Write("   STATUS: ");
                 this.Status = Console.ReadLine();
+                Console.Write("  ORDERID: ");
+                this.OrderId = int.Parse(Console.ReadLine());
             }
 
             var request = new RestRequest("api/items/", Method.POST);
@@ -140,6 +170,20 @@ namespace WarehouseClient
             var id = Console.ReadLine();
             var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
             var request = new RestRequest("api/items/{id}", Method.DELETE);
+            request.AddParameter("id", id, ParameterType.UrlSegment);
+            client.Execute(request);
+        }
+
+        //Delete Item by ID
+        public void DeleteItemByLocation(string itemLocation)
+        {
+            var id = itemLocation;
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var request = new RestRequest("api/items/{id}", Method.DELETE);
+
+            //Console.WriteLine(itemLocation + "\n");
+            //System.Threading.Thread.Sleep(4000);
+
             request.AddParameter("id", id, ParameterType.UrlSegment);
             client.Execute(request);
         }
@@ -163,6 +207,8 @@ namespace WarehouseClient
                 this.Location = Console.ReadLine();
                 Console.Write("   STATUS: ");
                 this.Status = Console.ReadLine();
+                Console.Write("  ORDERID: ");
+                this.OrderId = int.Parse(Console.ReadLine());
             }
 
             var request = new RestRequest(Method.PUT)
@@ -171,6 +217,24 @@ namespace WarehouseClient
                 Resource = "api/items/" + this.Id
             };
             request.AddJsonBody(this);
+            client.Execute(request);
+        }
+
+        //Modify Item Status
+        public void UpdateItemStatus(int orderId, string status)
+        {
+            var client = new RestClient(ConfigurationManager.AppSettings["serverConn"]);
+            var item = new Item();
+
+            item = item.GetItemById(orderId);
+            item.Status = status;
+
+            var request = new RestRequest(Method.PUT)
+            {
+                OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; },
+                Resource = "api/Items/" + orderId
+            };
+            request.AddJsonBody(item);
             client.Execute(request);
         }
     }

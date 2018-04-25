@@ -14,7 +14,7 @@ namespace WarehouseClient
             var customer = new Customer();
             customer = LoginCustomer();
 
-            if (customer.Id != 0)
+            if (customer != null && customer.Id != 0)
             {
                 int userInput = 0;
                 do

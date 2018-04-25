@@ -64,7 +64,7 @@ namespace WarehouseClient
             request.Resource += customer.Name + "/" + customer.Pw;
             customer = client.Execute<Customer>(request).Data;
 
-            if (customer.Name == null)
+            if (customer == null || customer.Name == null || customer.Pw == null)
             {
                 Console.WriteLine("\n *** Invalid name or password! ***");
                 Console.WriteLine(" *** Please try again! ***");

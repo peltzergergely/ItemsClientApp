@@ -151,13 +151,14 @@ namespace WarehouseClient
             var transaction = new Transaction();
             var order = new Order();
 
-            Console.WriteLine("\n\n** CREATE TRANSACTION **\n");
-            Console.Write("        Order ID: ");
+            Console.WriteLine("\n\n        ** CREATE TRANSACTION **\n");
+            Console.Write("          Order ID: ");
             int orderId = int.Parse(Console.ReadLine());
             //get order details
             order = order.GetOrderById(orderId);
 
             //if withrawal, get the right itemlist and list locations!
+            string location = "";
             if (order.Direction == "Withdrawal")
             {
                 var item = new Item();
@@ -165,28 +166,38 @@ namespace WarehouseClient
 
                 foreach (var i in itemList.Where(a => a.OwnerId == order.CostumerId && a.Name == order.ItemName && a.Status == "In Place"))
                 {
-                    Console.WriteLine("LOCATION IN SYSTEM: " + i.Location);    
+                    Console.WriteLine("LOCATION IN SYSTEM: " + i.Location);
+                    location = i.Location;
                 }
+                
             }
             //Form and data input
             transaction.OrderId = order.Id;
-            Console.WriteLine("      *ITEM NAME: " + order.ItemName);
-            Console.WriteLine("       *QUANTITY: " + order.Quantity);
-            Console.WriteLine("      *DIRECTION: " + order.Direction + "\n");
+            Console.WriteLine("        *ITEM NAME: " + order.ItemName);
+            Console.WriteLine("         *QUANTITY: " + order.Quantity);
+            Console.WriteLine("        *DIRECTION: " + order.Direction + "\n");
             transaction.Direction = order.Direction;
-            Console.Write("            GATE: ");
+            Console.Write("              GATE: ");
             transaction.Gate = int.Parse(Console.ReadLine());
-            Console.Write("TIME(MM-dd HH:mm): ");
+            Console.Write(" TIME(MM-dd HH:mm): ");
             transaction.Time = Console.ReadLine();
-            Console.Write("         LOCATION: ");
-            transaction.Location = Console.ReadLine();
+            if (location != "")
+            {
+                Console.Write("          LOCATION: " + location + "\n");
+                transaction.Location = location;
+            }
+            else
+            {
+                Console.Write("          LOCATION: ");
+                transaction.Location = Console.ReadLine();
+            }
             DateTime myDateTime = DateTime.Now;
             transaction.TimeStamp = myDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-            Console.Write("        TIMESTAMP: " + transaction.TimeStamp + "\n");
+            Console.Write("         TIMESTAMP: " + transaction.TimeStamp + "\n");
             transaction.DispatcherId = 1;
-            Console.Write("    DISPATCHER ID: " + transaction.DispatcherId.ToString() + "\n");
+            Console.Write("     DISPATCHER ID: " + transaction.DispatcherId.ToString() + "\n");
             transaction.Status = "in-progress";
-            Console.Write("     STATUS: In-progress\n");
+            Console.Write("      STATUS: In-progress\n");
 
             var request = new RestRequest("api/Transactions/", Method.POST);
             request.AddJsonBody(transaction);
@@ -196,10 +207,12 @@ namespace WarehouseClient
             if (order.Direction == "Deposit")
             {
                 var item = new Item();
+                
                 item.Name = order.ItemName;
                 item.OwnerId = order.CostumerId;
                 item.Location = transaction.Location;
                 item.Status = "Waiting for " + order.Direction;
+                item.OrderId = order.Id;
 
                 item.AddItem(true);
             }
@@ -230,8 +243,7 @@ namespace WarehouseClient
             transaction.Status = status;
 
             //Console.WriteLine(id + "\n");
-            //Console.WriteLine(status + "\n");
-            //System.Threading.Thread.Sleep(4000);
+            
 
             var request = new RestRequest(Method.PUT)
             {

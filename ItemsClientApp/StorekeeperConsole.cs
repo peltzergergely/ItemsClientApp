@@ -23,9 +23,9 @@ namespace ItemsClientApp
                     if (userInput == 1)
                         GetTransactions();
                     if (userInput == 2)
-                        CreateReceipt(storekeeper.Id);
-                    if (userInput == 3)
                         GetInProgressTransactions();
+                    if (userInput == 3)
+                        CreateReceipt(storekeeper.Id);
                     if (userInput == 4)
                         StorekeeperMenu();
                 } while (userInput != 0);
@@ -37,11 +37,11 @@ namespace ItemsClientApp
             Console.WriteLine("\n");
             Console.WriteLine("** STOREKEEPER MENU **\n");
             Console.WriteLine("1. List Transactions");
-            Console.WriteLine("2. Create Receipt");
-            Console.WriteLine("3. List InProgress Transactions");
-            Console.WriteLine("4. .........");
+            Console.WriteLine("2. List InProgress Transactions");
+            Console.WriteLine("3. Create Receit");
+            //Console.WriteLine("4. .........");
             Console.WriteLine("0. Exit\n");
-            Console.Write("INPUT: ");
+            Console.Write(" Chose Option: ");
             var result = Console.ReadLine();
             Console.Clear();
             try

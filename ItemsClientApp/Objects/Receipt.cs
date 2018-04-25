@@ -38,6 +38,7 @@ namespace WarehouseClient
             var transaction = new Transaction();
             var order = new Order();
             var customer = new Customer();
+            var item = new Item();
 
             
 
@@ -51,7 +52,7 @@ namespace WarehouseClient
 
             //order lekérése transID alapján
             order = order.GetOrderById(transaction.OrderId);
-
+            
             Console.Write("        CUSTOMER ID: " + order.CostumerId + "\n");
             receipt.CostumerId = order.CostumerId;
 
@@ -71,15 +72,17 @@ namespace WarehouseClient
             //change the status of the transaction
             transaction.UpdateTransactionStatus(transaction.Id, "completed");
             customer = customer.GetCustomerById(order.CostumerId);
-
+            
             int newStorage = 0;
             if (order.Direction == "Deposit")
             {
                 newStorage = Convert.ToInt32(customer.FreeStorage) - order.Quantity;
+                item.UpdateItemStatus(order.Id, "In Place");
             }
             else
             {
                 newStorage = Convert.ToInt32(customer.FreeStorage) + order.Quantity;
+                item.DeleteItemByLocation(transaction.Location);
             }
             //Console.Write(newStorage + "\n");
 
