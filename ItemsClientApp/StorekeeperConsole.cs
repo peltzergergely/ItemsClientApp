@@ -35,12 +35,12 @@ namespace ItemsClientApp
         static public int StorekeeperMenu()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("** STOREKEEPER MENU **\n");
-            Console.WriteLine("1. List Transactions");
-            Console.WriteLine("2. List InProgress Transactions");
-            Console.WriteLine("3. Create Receit");
+            Console.WriteLine(" ** STOREKEEPER MENU **\n");
+            Console.WriteLine(" 1. List Transactions");
+            Console.WriteLine(" 2. List InProgress Transactions");
+            Console.WriteLine(" 3. Create Receipt");
             //Console.WriteLine("4. .........");
-            Console.WriteLine("0. Exit\n");
+            Console.WriteLine(" 0. Exit\n");
             Console.Write(" Chose Option: ");
             var result = Console.ReadLine();
             Console.Clear();

@@ -56,7 +56,7 @@ namespace WarehouseClient
             request.Resource += storekeeper.Name + "/" + storekeeper.Pw;
             storekeeper = client.Execute<Storekeeper>(request).Data;
 
-            if (storekeeper.Name == null)
+            if (storekeeper == null || storekeeper.Name == null || storekeeper.Pw == null)
             {
                 Console.WriteLine("\n *** Invalid name or password! ***");
                 Console.WriteLine(" *** Please try again! ***");

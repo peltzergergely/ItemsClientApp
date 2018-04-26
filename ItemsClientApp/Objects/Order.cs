@@ -39,9 +39,9 @@ namespace WarehouseClient
 
             Console.WriteLine("\n\n** CHOOSE DIRECTION **\n");
 
-            Console.WriteLine("1. Deposit");
-            Console.WriteLine("2. Withdrawal");
-            Console.Write("INPUT: ");
+            Console.WriteLine("  1. Deposit");
+            Console.WriteLine("  2. Withdrawal");
+            Console.Write("\n Chose Option: ");
             var direction = Console.ReadLine();
             if (direction == "2")
             {

@@ -89,7 +89,7 @@ namespace WarehouseClient
             string response = client.Execute(request).Content;
             if (!String.IsNullOrWhiteSpace(response))
             {
-                Console.WriteLine(response);
+                Console.WriteLine("\n " + response);
             }
             else
                 Console.WriteLine("***WARNING: SERVER IS NOT CONNECTED***");

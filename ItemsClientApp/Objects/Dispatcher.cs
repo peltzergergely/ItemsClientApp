@@ -56,7 +56,7 @@ namespace WarehouseClient
             request.Resource += dispatcher.Name + "/" + dispatcher.Pw;
             dispatcher = client.Execute<Dispatcher>(request).Data;
 
-            if (dispatcher.Name == null)
+            if (dispatcher == null || dispatcher.Name == null || dispatcher.Pw == null)
             {
                 Console.WriteLine("\n *** Invalid name or password! ***");
                 Console.WriteLine(" *** Please try again! ***");

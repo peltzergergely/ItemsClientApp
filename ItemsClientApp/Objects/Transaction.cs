@@ -122,7 +122,7 @@ namespace WarehouseClient
                 Console.WriteLine();
                 Console.WriteLine("===============================");
 
-                //foreach (var item in restResult.Where(i => i.Status == "pending"))
+                
                     foreach (var transaction in transList.Where(i => i.Status == "in-progress"))
                     {
                         Console.WriteLine("TRANS. ID:  " + transaction.Id);
@@ -197,7 +197,7 @@ namespace WarehouseClient
             transaction.DispatcherId = 1;
             Console.Write("     DISPATCHER ID: " + transaction.DispatcherId.ToString() + "\n");
             transaction.Status = "in-progress";
-            Console.Write("      STATUS: In-progress\n");
+            Console.Write("            STATUS: In-progress\n");
 
             var request = new RestRequest("api/Transactions/", Method.POST);
             request.AddJsonBody(transaction);
@@ -241,9 +241,6 @@ namespace WarehouseClient
 
             transaction = transaction.GetTransactionById(id);
             transaction.Status = status;
-
-            //Console.WriteLine(id + "\n");
-            
 
             var request = new RestRequest(Method.PUT)
             {
